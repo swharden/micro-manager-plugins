@@ -1,0 +1,11 @@
+print("\\Clear");
+files=getFileList("X:\\Data\\SCOTT\\2017-04-24 aging BLA");
+files=Array.sort(files);
+lastABF="NO_ABFS_FOUND";
+for (i=0;i<files.length;i++){
+	if (indexOf(files[i],".abf",0)>0) {
+		lastABF=split(files[i],".");
+		cellID=lastABF[0];
+	}
+}
+print("CELL ID: "+cellID);
