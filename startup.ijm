@@ -1,5 +1,22 @@
-// scripts here are for capturing stills, averages, video, etc.
-// the "capture" stack is expanded with every new capture.
+// LEARN HOW TO MAKE THIS IMPORT FROM OTHER SCRIPTS!!!
+
+//////////////////////////////////////////////////////////
+// HARDWARE INTERACTION WITH SERIAL PORT
+//////////////////////////////////////////////////////////
+
+function LED_ON(){
+	print("LED on");
+	exec(macroPath+"serial/busPirate_ON.bat");
+}
+
+function LED_OFF(){
+	print("LED off");
+	exec(macroPath+"serial//busPirate_OFF.bat");
+}
+
+//////////////////////////////////////////////////////////
+// CAPTURING IMAGES FROM THE LIVE WINDOW
+//////////////////////////////////////////////////////////
 
 function captureSetup(){
     // run this to prepare for future captures
@@ -54,13 +71,32 @@ function captureAverage(nSnaps){
     run("Out [-]");
     run("Out [-]");
     close("tempAverage");
+	selectWindow("");
 }
 
+function captureVideo(everyMs){
+	// capture a new image every so-many milliseconds
+	nCaptures=0;
+	while(True){
+		nCaptures+=1;
+		print(nCaptures);
+		updateDisplay();
+		wait(everyMs);
+	}
+}
+
+//////////////////////////////////////////////////////////
+// MACROS
+//////////////////////////////////////////////////////////
+
 macro "Average 10 Frames Action Tool - C037T0d141T7d140" {
-    captureAverage(10);
+	captureAverage(10);
 }
 
 macro "Average 50 Frames Action Tool - C037T0d145T7d140" {
     captureAverage(50);
 }
 
+macro "Capture Video Tool - C037T0d14V" {
+    captureVideo(500);
+}

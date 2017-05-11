@@ -1,6 +1,16 @@
 # micro-manager-plugins
 µ-Manager (ImageJ) plugins for image/video acquisition in an electrophysiology environment
 
+## Setup
+* Use the GitHub desktop client (or just extract the zip) so the micro-manager-plugins folder is somewhere on your local computer. Then, edit your `StartupMacros.txt` file (which lives in Program Files / Micro Manager / macros) and add a line so `startup.ijm` is executed.
+```
+var swhlabPluginPath="C:\\Users\\SHarden\\Documents\\GitHub\\micro-manager-plugins\\";
+macro "AutoRun" {
+  run("Micro-Manager Studio");
+  runMacro(swhlabPluginPath+"macros\\startup.ijm"); 
+}
+```
+
 ## Links
 * https://micro-manager.org/
 * [ImageJ macro language](https://imagej.nih.gov/ij/developer/macro/macros.html)
