@@ -19,7 +19,7 @@ function captureThis(){
     run("Paste");
 }
 
-function captureNext(){
+macro "captureNext"{
     // capture whatever is shown on the live viewer after it updates
     waitForNextFrame();
     captureThis();
@@ -37,23 +37,4 @@ function waitForNextFrame(){
         }
         wait(20);
     }
-}
-
-macro "captureAverage [nSnaps]"{
-    selectWindow("");
-    run("Duplicate...", "title=tempAverage");
-    for(i=1;i<nSnaps;i++){
-        waitForNextFrame();
-        run("Copy");
-        selectWindow("tempAverage");
-        run("Add Slice");
-        setSlice(i+1);
-        run("Paste");
-    }
-    selectWindow("tempAverage");
-    run("Z Project...", "projection=[Average Intensity]");   
-    run("Enhance Contrast", "saturated=0.05"); 
-    run("Out [-]");
-    run("Out [-]");
-    close("tempAverage");
 }
