@@ -1,6 +1,6 @@
 macro "1 captures Action Tool - C037T0d141" {captureAverage(1);}
 macro "10 captures Action Tool - C037T0d141T7d140" {captureAverage(10);}
-macro "Repeated capture every 1s Action Tool - C037T0d141T7d14s" {captureRepeated(5*1000);}
+macro "Repeated capture every 1s Action Tool - C037T0d141T7d14s" {captureRepeated(10*1000);}
 
 function handleClick(button) {
 	print("Button Bar", "The \""+button+"\" Button was pressed");
@@ -59,6 +59,7 @@ function captureThis(){
 function captureNext(){
     // capture whatever is shown on the live viewer after it updates
     waitForNextFrame();
+	waitForNextFrame();
     captureThis();
 }
 
@@ -101,12 +102,16 @@ function captureAverage(nSnaps){
 function captureRepeated(msBetween){
 	// continuously capture video until something crashes.
 	nCaptures=0;
+	t1=getTime();
 	while(windowExists("")){
 		nCaptures+=1;
+		t2=getTime();
+		print("### TIME: "+d2s((t2-t1)/1000,2)+" sec ###");
 		print("capturing frame "+nCaptures+" ...");
-		busPirate_ON();
+		exec("numlock ON");
+		wait(1000); // to warm up
 		captureNext();
-		busPirate_OFF();
+		exec("numlock OFF");
 		updateDisplay();
 		wait(msBetween);
 	}
@@ -141,16 +146,4 @@ function annotateVideo(secPerFrame){
 		drawString(msg,10,10+fontSize);
 		
 	}
-}
-
-function busPirate_ON() {
-	print("turning LED on...");
-	exec("powershell -inputformat none -command $port=new-Object System.IO.Ports.SerialPort COM123,115200,None,8,one; $port.open(); $port.WriteLine('#'); $port.ReadLine(); $port.WriteLine('m'); $port.ReadLine(); $port.WriteLine('2'); $port.WriteLine('W'); $port.ReadLine(); $port.Close();");
-	print("LED IS ON!");
-}
-
-function busPirate_OFF() {
-	print("turning LED off...");
-	exec("powershell -inputformat none -command $port=new-Object System.IO.Ports.SerialPort COM123,115200,None,8,one; $port.open(); $port.WriteLine('#'); $port.ReadLine(); $port.Close();");
-	print("LED IS OFF!");
 }
