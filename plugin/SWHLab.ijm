@@ -109,7 +109,7 @@ function captureRepeated(msBetween){
 		print("### TIME: "+d2s((t2-t1)/1000,2)+" sec ###");
 		print("capturing frame "+nCaptures+" ...");
 		exec("numlock ON");
-		wait(1000); // to warm up
+		wait(500); // to warm up
 		captureNext();
 		exec("numlock OFF");
 		updateDisplay();
